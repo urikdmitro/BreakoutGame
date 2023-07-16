@@ -9,9 +9,11 @@ class Shader {
 private:
   unsigned int id_;
 
+  unsigned int CompileShader(const std::string &name);
+
 public:
-  Shader(std::string vertex_source, std::string fragment_source,
-         std::string geometry_source);
+  Shader(const std::string &vertex_source, const std::string &fragment_source,
+         const std::string &geometry_source);
 
   unsigned int GetId();
   Shader &Use();

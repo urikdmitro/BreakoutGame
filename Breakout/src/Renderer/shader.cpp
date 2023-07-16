@@ -1,45 +1,31 @@
 #include "shader.h"
 #include "cstring"
+#include <exception>
 
 Shader::Shader(const std::string &vertex_source,
                const std::string &fragment_source,
                const std::string &geometry_source) {
 
-  unsigned int vertex_shader_id CompileShader(vertex_source);
+  this->id_ = glCreateProgram();
 
-  char *vertex_source_buffer = new char[vertex_source.length()];
-  std::strcpy(vertex_source_buffer, vertex_source.c_str());
+  unsigned int vertex_shader_id = CompileShader(vertex_source);
+  glAttachShader(this->id_, vertex_shader_id);
 
-  vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
+  unsigned int fragment_shader_id = CompileShader(fragment_source);
+  glAttachShader(this->id_, fragment_shader_id);
 
-  glShaderSource(vertex_shader_id, 1, &vertex_source_buffer, NULL);
-  glCompileShader(vertex_shader_id);
-  // checkCompileErrors(vertex_shader_id, "VERTEX");
-
-  fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragment_shader_id, 1, &fragmentSource, NULL);
-  glCompileShader(fragment_shader_id);
-  checkCompileErrors(fragment_shader_id, "FRAGMENT");
-
-  if (geometrySource != nullptr) {
-    gShader = glCreateShader(GL_GEOMETRY_SHADER);
-    glShaderSource(gShader, 1, &geometrySource, NULL);
-    glCompileShader(gShader);
-    checkCompileErrors(gShader, "GEOMETRY");
+  unsigned int geometry_shader_id;
+  if (!geometry_source.empty()) {
+    geometry_shader_id = CompileShader(geometry_source);
+    glAttachShader(this->id_, geometry_shader_id);
   }
 
-  this->ID = glCreateProgram();
-  glAttachShader(this->ID, vertex_shader_id);
-  glAttachShader(this->ID, fragment_shader_id);
-  if (geometrySource != nullptr)
-    glAttachShader(this->ID, gShader);
-  glLinkProgram(this->ID);
-  checkCompileErrors(this->ID, "PROGRAM");
+  glLinkProgram(this->id_);
 
   glDeleteShader(vertex_shader_id);
   glDeleteShader(fragment_shader_id);
-  if (geometrySource != nullptr)
-    glDeleteShader(gShader);
+  if (!geometry_source.empty())
+    glDeleteShader(geometry_shader_id);
 }
 
 unsigned int Shader::CompileShader(const std::string &name) {

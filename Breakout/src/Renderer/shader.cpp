@@ -20,10 +20,10 @@ GLuint Shader::CompileProgram(const std::string &vertex_source,
   GLuint compile_status;
 
   GLuint vertex_shader_id = CompileShader(vertex_source);
-  compile_status = CheckShaderCompileErrors(vertex_shader_id);
+  compile_status = CheckShaderCompileStatus(vertex_shader_id);
 
   GLuint fragment_shader_id = CompileShader(fragment_source);
-  compile_status = CheckShaderCompileErrors(fragment_shader_id);
+  compile_status = CheckShaderCompileStatus(fragment_shader_id);
 
   glAttachShader(this->program_id_, vertex_shader_id);
   glAttachShader(this->program_id_, fragment_shader_id);
@@ -31,7 +31,7 @@ GLuint Shader::CompileProgram(const std::string &vertex_source,
   GLuint geometry_shader_id;
   if (!geometry_source.empty()) {
     geometry_shader_id = CompileShader(geometry_source);
-    compile_status = CheckShaderCompileErrors(geometry_shader_id);
+    compile_status = CheckShaderCompileStatus(geometry_shader_id);
 
     glAttachShader(this->program_id_, geometry_shader_id);
   }
@@ -69,7 +69,7 @@ GLuint Shader::CompileShader(const std::string &shader_source) {
 
 // TODO: methods CheckShaderCompileErrors and CheckShaderProgramCompileErrors
 // have similar implementation, need to fix it
-GLuint Shader::CheckShaderCompileErrors(unsigned int shader_id) {
+GLuint Shader::CheckShaderCompileStatus(unsigned int shader_id) {
   GLint success;
   char infoLog[1024];
 
@@ -83,7 +83,7 @@ GLuint Shader::CheckShaderCompileErrors(unsigned int shader_id) {
   return 1;
 }
 
-unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int program_id) {
+unsigned int Shader::CheckShaderProgramCompileStatus(unsigned int program_id) {
   GLint success;
   char infoLog[1024];
 
@@ -97,7 +97,7 @@ unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int program_id) {
   return 1;
 }
 
-GLuint Shader::GetId() { return program_id_; }
+GLuint Shader::GetProgramId() { return program_id_; }
 
 Shader &Shader::Bind() {
   glUseProgram(program_id_);

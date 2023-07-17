@@ -10,8 +10,8 @@ private:
   GLuint program_id_;
 
   GLuint CompileShader(const std::string &shader_source);
-  GLuint CheckShaderCompileErrors(GLuint shader_id);
-  GLuint CheckShaderProgramCompileErrors(GLuint program_id);
+  GLuint CheckShaderCompileStatus(GLuint shader_id);
+  GLuint CheckShaderProgramCompileStatus(GLuint program_id);
 
 public:
   Shader() = default;
@@ -24,7 +24,7 @@ public:
                         const std::string &fragment_source,
                         const std::string &geometry_source);
 
-  GLuint GetId();
+  GLuint GetProgramId();
   Shader &Bind();
   Shader &Unbind();
 

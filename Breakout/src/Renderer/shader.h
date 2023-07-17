@@ -7,11 +7,11 @@
 
 class Shader {
 private:
-  unsigned int id_;
+  unsigned int program_id_;
 
-  unsigned int CompileShader(const std::string &name);
-  unsigned int CheckShaderCompileErrors(unsigned int shader);
-  unsigned int CheckShaderProgramCompileErrors(unsigned int shader);
+  unsigned int CompileShader(const std::string &shader_source);
+  unsigned int CheckShaderCompileErrors(unsigned int shader_id);
+  unsigned int CheckShaderProgramCompileErrors(unsigned int program_id);
 
 public:
   Shader() = default;
@@ -20,21 +20,22 @@ public:
 
   ~Shader();
 
-  unsigned int Compile(const std::string &vertex_source,
-                       const std::string &fragment_source,
-                       const std::string &geometry_source);
+  unsigned int CompileProgram(const std::string &vertex_source,
+                              const std::string &fragment_source,
+                              const std::string &geometry_source);
 
   unsigned int GetId();
-  Shader &Use();
+  Shader &Bind();
+  Shader &Unbind();
 
-  void SetUniform(const std::string &name, float value);
-  void SetUniform(const std::string &name, int value);
-  void SetUniform(const std::string &name, const glm::vec2 &value);
-  void SetUniform(const std::string &name, const glm::vec3 &value);
-  void SetUniform(const std::string &name, const glm::vec4 &value);
-  void SetUniform(const std::string &name, const glm::mat2 &value);
-  void SetUniform(const std::string &name, const glm::mat3 &value);
-  void SetUniform(const std::string &name, const glm::mat4 &value);
+  void SetUniform(const std::string &uniorm_name, float value);
+  void SetUniform(const std::string &uniorm_name, int value);
+  void SetUniform(const std::string &uniorm_name, const glm::vec2 &value);
+  void SetUniform(const std::string &uniorm_name, const glm::vec3 &value);
+  void SetUniform(const std::string &uniorm_name, const glm::vec4 &value);
+  void SetUniform(const std::string &uniorm_name, const glm::mat2 &value);
+  void SetUniform(const std::string &uniorm_name, const glm::mat3 &value);
+  void SetUniform(const std::string &uniorm_name, const glm::mat4 &value);
 };
 
 #endif // BREAKOUT_SRC_RENDERER_SHADER_

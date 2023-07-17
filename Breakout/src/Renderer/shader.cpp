@@ -5,17 +5,17 @@ Shader::Shader(const std::string &vertex_source,
                const std::string &fragment_source,
                const std::string &geometry_source) {
 
-  Compile(vertex_source, fragment_source, geometry_source);
+  CompileProgram(vertex_source, fragment_source, geometry_source);
 }
 
-Shader::~Shader() { glDeleteProgram(id_); }
+Shader::~Shader() { glDeleteProgram(program_id_); }
 
 // FIXME: horrible piece of shit, need to fix dublication of the code
-unsigned int Shader::Compile(const std::string &vertex_source,
-                             const std::string &fragment_source,
-                             const std::string &geometry_source) {
+unsigned int Shader::CompileProgram(const std::string &vertex_source,
+                                    const std::string &fragment_source,
+                                    const std::string &geometry_source) {
 
-  this->id_ = glCreateProgram();
+  this->program_id_ = glCreateProgram();
   bool is_compiled;
 
   unsigned int vertex_shader_id = CompileShader(vertex_source);
@@ -24,8 +24,8 @@ unsigned int Shader::Compile(const std::string &vertex_source,
   unsigned int fragment_shader_id = CompileShader(fragment_source);
   is_compiled = CheckShaderCompileErrors(fragment_shader_id);
 
-  glAttachShader(this->id_, vertex_shader_id);
-  glAttachShader(this->id_, fragment_shader_id);
+  glAttachShader(this->program_id_, vertex_shader_id);
+  glAttachShader(this->program_id_, fragment_shader_id);
 
   unsigned int geometry_shader_id;
   if (!geometry_source.empty()) {
@@ -33,30 +33,30 @@ unsigned int Shader::Compile(const std::string &vertex_source,
     is_compiled = CheckShaderCompileErrors(geometry_shader_id);
 
     if (is_compiled)
-      glAttachShader(this->id_, geometry_shader_id);
+      glAttachShader(this->program_id_, geometry_shader_id);
   }
 
   if (is_compiled)
-    glLinkProgram(this->id_);
+    glLinkProgram(this->program_id_);
 
-  glDetachShader(id_, vertex_shader_id);
+  glDetachShader(program_id_, vertex_shader_id);
   glDeleteShader(vertex_shader_id);
 
-  glDetachShader(id_, fragment_shader_id);
+  glDetachShader(program_id_, fragment_shader_id);
   glDeleteShader(fragment_shader_id);
 
   if (!geometry_source.empty()) {
-    glDetachShader(id_, geometry_shader_id);
+    glDetachShader(program_id_, geometry_shader_id);
     glDeleteShader(geometry_shader_id);
   }
 
   return is_compiled;
 }
 
-unsigned int Shader::CompileShader(const std::string &name) {
+unsigned int Shader::CompileShader(const std::string &shader_source) {
 
-  char *shader_source_buffer = new char[name.length()];
-  std::strcpy(shader_source_buffer, name.c_str());
+  char *shader_source_buffer = new char[shader_source.length()];
+  std::strcpy(shader_source_buffer, shader_source.c_str());
 
   unsigned int shader_id = glCreateShader(GL_VERTEX_SHADER);
 
@@ -68,13 +68,13 @@ unsigned int Shader::CompileShader(const std::string &name) {
 
 // TODO: methods CheckShaderCompileErrors and CheckShaderProgramCompileErrors
 // have similar implementation, need to fix it
-unsigned int Shader::CheckShaderCompileErrors(unsigned int shader) {
+unsigned int Shader::CheckShaderCompileErrors(unsigned int shader_id) {
   int success;
   char infoLog[1024];
 
-  glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+  glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success);
   if (!success) {
-    glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+    glGetShaderInfoLog(shader_id, 1024, NULL, infoLog);
     // FIXME: add log
     return 0;
   }
@@ -82,13 +82,13 @@ unsigned int Shader::CheckShaderCompileErrors(unsigned int shader) {
   return 1;
 }
 
-unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int shader) {
+unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int program_id) {
   int success;
   char infoLog[1024];
 
-  glGetProgramiv(shader, GL_COMPILE_STATUS, &success);
+  glGetProgramiv(program_id, GL_COMPILE_STATUS, &success);
   if (!success) {
-    glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+    glGetProgramInfoLog(program_id, 1024, NULL, infoLog);
     // FIXME: add log
     return 0;
   }

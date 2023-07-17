@@ -12,32 +12,32 @@ Shader::Shader(const std::string &vertex_source,
 Shader::~Shader() { glDeleteProgram(program_id_); }
 
 // FIXME: horrible piece of shit, need to fix dublication of the code
-unsigned int Shader::CompileProgram(const std::string &vertex_source,
-                                    const std::string &fragment_source,
-                                    const std::string &geometry_source) {
+GLuint Shader::CompileProgram(const std::string &vertex_source,
+                              const std::string &fragment_source,
+                              const std::string &geometry_source) {
 
   this->program_id_ = glCreateProgram();
-  bool is_compiled;
+  GLuint compile_status;
 
-  unsigned int vertex_shader_id = CompileShader(vertex_source);
-  is_compiled = CheckShaderCompileErrors(vertex_shader_id);
+  GLuint vertex_shader_id = CompileShader(vertex_source);
+  compile_status = CheckShaderCompileErrors(vertex_shader_id);
 
-  unsigned int fragment_shader_id = CompileShader(fragment_source);
-  is_compiled = CheckShaderCompileErrors(fragment_shader_id);
+  GLuint fragment_shader_id = CompileShader(fragment_source);
+  compile_status = CheckShaderCompileErrors(fragment_shader_id);
 
   glAttachShader(this->program_id_, vertex_shader_id);
   glAttachShader(this->program_id_, fragment_shader_id);
 
-  unsigned int geometry_shader_id;
+  GLuint geometry_shader_id;
   if (!geometry_source.empty()) {
     geometry_shader_id = CompileShader(geometry_source);
-    is_compiled = CheckShaderCompileErrors(geometry_shader_id);
+    compile_status = CheckShaderCompileErrors(geometry_shader_id);
 
-    if (is_compiled)
-      glAttachShader(this->program_id_, geometry_shader_id);
+    glAttachShader(this->program_id_, geometry_shader_id);
   }
 
-  if (is_compiled)
+  // FIXME: at least 1 result of CheckShaderCompileErrors is ignored
+  if (compile_status)
     glLinkProgram(this->program_id_);
 
   glDetachShader(program_id_, vertex_shader_id);
@@ -51,15 +51,15 @@ unsigned int Shader::CompileProgram(const std::string &vertex_source,
     glDeleteShader(geometry_shader_id);
   }
 
-  return is_compiled;
+  return compile_status;
 }
 
-unsigned int Shader::CompileShader(const std::string &shader_source) {
+GLuint Shader::CompileShader(const std::string &shader_source) {
 
   char *shader_source_buffer = new char[shader_source.length()];
   std::strcpy(shader_source_buffer, shader_source.c_str());
 
-  unsigned int shader_id = glCreateShader(GL_VERTEX_SHADER);
+  GLuint shader_id = glCreateShader(GL_VERTEX_SHADER);
 
   glShaderSource(shader_id, 1, &shader_source_buffer, NULL);
   glCompileShader(shader_id);
@@ -69,8 +69,8 @@ unsigned int Shader::CompileShader(const std::string &shader_source) {
 
 // TODO: methods CheckShaderCompileErrors and CheckShaderProgramCompileErrors
 // have similar implementation, need to fix it
-unsigned int Shader::CheckShaderCompileErrors(unsigned int shader_id) {
-  int success;
+GLuint Shader::CheckShaderCompileErrors(unsigned int shader_id) {
+  GLint success;
   char infoLog[1024];
 
   glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success);
@@ -84,7 +84,7 @@ unsigned int Shader::CheckShaderCompileErrors(unsigned int shader_id) {
 }
 
 unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int program_id) {
-  int success;
+  GLint success;
   char infoLog[1024];
 
   glGetProgramiv(program_id, GL_COMPILE_STATUS, &success);
@@ -97,7 +97,7 @@ unsigned int Shader::CheckShaderProgramCompileErrors(unsigned int program_id) {
   return 1;
 }
 
-unsigned int Shader::GetId() { return program_id_; }
+GLuint Shader::GetId() { return program_id_; }
 
 Shader &Shader::Bind() {
   glUseProgram(program_id_);
@@ -109,12 +109,12 @@ Shader &Shader::Unbind() {
   return *this;
 }
 
-void Shader::SetUniform(const std::string &uniform_name, float value) {
+void Shader::SetUniform(const std::string &uniform_name, GLfloat value) {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform1f(location, value);
 }
 
-void Shader::SetUniform(const std::string &uniform_name, int value) {
+void Shader::SetUniform(const std::string &uniform_name, GLint value) {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform1i(location, value);
 }

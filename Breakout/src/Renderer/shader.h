@@ -2,7 +2,7 @@
 #define BREAKOUT_SRC_RENDERER_SHADER_
 
 #include "glad/glad.h"
-#include "glm/glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include <string>
 
 class Shader {

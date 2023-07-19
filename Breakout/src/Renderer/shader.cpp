@@ -1,6 +1,6 @@
 #include "shader.h"
-#include "cstring"
-#include "glm/glm/gtc/type_ptr.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include <cstring>
 
 Shader::Shader(const std::string &vertex_source,
                const std::string &fragment_source,

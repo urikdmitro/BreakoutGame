@@ -97,60 +97,60 @@ unsigned int Shader::CheckShaderProgramCompileStatus(unsigned int program_id) {
   return 1;
 }
 
-GLuint Shader::GetProgramId() { return program_id_; }
+GLuint Shader::GetProgramId() const { return program_id_; }
 
-Shader &Shader::Bind() {
+const Shader &Shader::Bind() const {
   glUseProgram(program_id_);
   return *this;
 }
 
-Shader &Shader::Unbind() {
+const Shader &Shader::Unbind() const {
   glUseProgram(0);
   return *this;
 }
 
-void Shader::SetUniform(const std::string &uniform_name, GLfloat value) {
+void Shader::SetUniform(const std::string &uniform_name, GLfloat value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform1f(location, value);
 }
 
-void Shader::SetUniform(const std::string &uniform_name, GLint value) {
+void Shader::SetUniform(const std::string &uniform_name, GLint value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform1i(location, value);
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::vec2 &value) {
+                        const glm::vec2 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform2f(location, value.x, value.y);
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::vec3 &value) {
+                        const glm::vec3 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform3f(location, value.x, value.y, value.z);
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::vec4 &value) {
+                        const glm::vec4 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniform4f(location, value.x, value.y, value.z, value.w);
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::mat2 &value) {
+                        const glm::mat2 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::mat3 &value) {
+                        const glm::mat3 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::SetUniform(const std::string &uniform_name,
-                        const glm::mat4 &value) {
+                        const glm::mat4 &value) const {
   GLint location = glGetUniformLocation(program_id_, uniform_name.c_str());
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }

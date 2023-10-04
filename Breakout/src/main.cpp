@@ -1,6 +1,12 @@
 #include "glad/glad.h"
 //
 #include "GLFW/glfw3.h"
+#include "src/Renderer/resources.h"
+
+//
+#include "src/Renderer/renderer.h"
+#include "src/Renderer/shader.h"
+#include "src/Renderer/vertex_array.h"
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -32,11 +38,25 @@ int main() {
     return -1;
   }
 
+  Renderer renderer;
+  Shader shader = Resources::LoadShaderFromFile(
+      "./../assets/shaders/debug/triangle_vs.glsl",
+      "./../assets/shaders/debug/triangle_fs.glsl");
+
+  float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+
+  VertexArray va;
+  va.AddVertexBuffer(&vertices, sizeof(vertices), 3, 3 * sizeof(float));
+  va.Bind();
+  shader.Bind();
+
+  renderer.SetClearColor({0.0, 1.0, 0.0, 1.0});
+
   while (!glfwWindowShouldClose(window)) {
     processInput(window);
+    renderer.Clear();
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    renderer.Draw(va, shader);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

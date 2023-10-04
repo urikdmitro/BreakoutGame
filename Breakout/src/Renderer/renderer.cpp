@@ -6,7 +6,7 @@ void Renderer::Draw(const VertexArray &vertex_array,
   vertex_array.Bind();
 
   // FIXME : fresh piece of dog shit with cum
-  glDrawArrays(GL_TRIANGLES, 0, 6);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void Renderer::SetClearColor(const glm::vec4 &color) const {

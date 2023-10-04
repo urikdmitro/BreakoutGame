@@ -5,11 +5,19 @@ project(${PROJECT_NAME})
 
 set(SOURCES #
     Breakout/src/main.cpp
+    Breakout/src/Renderer/resources.cpp
+    Breakout/src/Renderer/renderer.cpp
+    Breakout/src/Renderer/shader.cpp
+    Breakout/src/Renderer/texture.cpp
+    Breakout/src/Renderer/vertex_array.cpp
+    Breakout/src/Renderer/vertex_buffer.cpp
+    Breakout/vendor/stb/stb_image.cpp
 )
 
 set(HEADERS #
     Breakout/vendor/glad/include/glad/glad.h
     Breakout/vendor/stb/stb_image.h
+    Breakout/src/Renderer/resources.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})

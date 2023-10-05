@@ -1,9 +1,10 @@
 #include "glad/glad.h"
 //
 #include "GLFW/glfw3.h"
-#include "src/Renderer/resources.h"
+#include "resources.h"
 
 //
+#include "src/Core/log.h"
 #include "src/Renderer/renderer.h"
 #include "src/Renderer/shader.h"
 #include "src/Renderer/vertex_array.h"
@@ -20,6 +21,12 @@ int main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+  Log::Init();
+  LOG_GLOBAL_INFO("Logger initialized");
+  LOG_GLOBAL_WARN("Logger initialized");
+  LOG_GLOBAL_ERROR("Logger initialized");
+  LOG_GLOBAL_FATAL("Logger initialized");
 
   GLFWwindow *window =
       glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Breakout", NULL, NULL);

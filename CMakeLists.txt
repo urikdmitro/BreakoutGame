@@ -6,7 +6,7 @@ project(${PROJECT_NAME})
 set(SOURCES #
     Breakout/src/main.cpp
     Breakout/src/Core/log.cpp
-    Breakout/src/Renderer/resources.cpp
+    Breakout/src/Core/resources.cpp
     Breakout/src/Renderer/renderer.cpp
     Breakout/src/Renderer/shader.cpp
     Breakout/src/Renderer/texture.cpp
@@ -30,6 +30,8 @@ target_include_directories(
     ${PROJECT_NAME}
     PRIVATE
         ${CMAKE_SOURCE_DIR}/Breakout
+        ${CMAKE_SOURCE_DIR}/Breakout/src/Core
+        ${CMAKE_SOURCE_DIR}/Breakout/src/Renderer
         ${CMAKE_SOURCE_DIR}/Breakout/vendor/
         ${CMAKE_SOURCE_DIR}/Breakout/vendor/glm
 )

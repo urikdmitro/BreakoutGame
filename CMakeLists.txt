@@ -5,6 +5,7 @@ project(${PROJECT_NAME})
 
 set(SOURCES #
     Breakout/src/main.cpp
+    Breakout/src/Core/log.cpp
     Breakout/src/Renderer/resources.cpp
     Breakout/src/Renderer/renderer.cpp
     Breakout/src/Renderer/shader.cpp
@@ -17,7 +18,7 @@ set(SOURCES #
 set(HEADERS #
     Breakout/vendor/glad/include/glad/glad.h
     Breakout/vendor/stb/stb_image.h
-    Breakout/src/Renderer/resources.h
+    Breakout/src/Core/log.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
@@ -40,3 +41,5 @@ set(GLFW_INSTALL OFF CACHE BOOL "GLFW lib only")
 
 add_subdirectory(Breakout/vendor/GLFW)
 target_link_libraries(${PROJECT_NAME} glfw)
+add_subdirectory(Breakout/vendor/spdlog)
+target_link_libraries(${PROJECT_NAME} spdlog)

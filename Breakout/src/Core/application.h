@@ -1,8 +1,14 @@
 #ifndef BREAKOUT_SRC_CORE_APPLICATION_H_
 #define BREAKOUT_SRC_CORE_APPLICATION_H_
 
+#include "glad/glad.h"
+#include "window.h"
+
 class Application {
 private:
+  WindowI *window_;
+  bool is_running_;
+
 public:
   Application();
   ~Application();

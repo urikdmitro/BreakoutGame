@@ -4,7 +4,7 @@
 #include "GLFW/glfw3.h"
 #include "window.h"
 
-class WindowGLFW : WindowI {
+class WindowGLFW : public WindowI {
 private:
   WindowProperties window_properties_;
   GLFWwindow *window_;

@@ -4,15 +4,17 @@ set(PROJECT_NAME Breakout_Game)
 project(${PROJECT_NAME})
 
 set(SOURCES #
-    Breakout/src/main.cpp
-    Breakout/src/Core/log.cpp
-    Breakout/src/Core/resources.cpp
+    # Breakout/src/main.cpp
+    Breakout/src/Core/entry_point.cpp
+    Breakout/src/Core/application.cpp
     Breakout/src/Core/window.cpp
-    Breakout/src/Renderer/renderer.cpp
-    Breakout/src/Renderer/shader.cpp
-    Breakout/src/Renderer/texture.cpp
-    Breakout/src/Renderer/vertex_array.cpp
-    Breakout/src/Renderer/vertex_buffer.cpp
+    Breakout/src/Core/log.cpp
+    # Breakout/src/Core/resources.cpp
+    # Breakout/src/Renderer/renderer.cpp
+    # Breakout/src/Renderer/shader.cpp
+    # Breakout/src/Renderer/texture.cpp
+    # Breakout/src/Renderer/vertex_array.cpp
+    # Breakout/src/Renderer/vertex_buffer.cpp
     Breakout/vendor/stb/stb_image.cpp
     Breakout/src/Platform/Linux/GLFW/window_glfw.cpp
 )

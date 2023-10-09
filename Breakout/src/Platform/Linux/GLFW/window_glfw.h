@@ -7,7 +7,7 @@
 class WindowGLFW : public WindowI {
 private:
   WindowProperties window_properties_;
-  GLFWwindow *window_;
+  GLFWwindow *glfw_window_;
 
 public:
   WindowGLFW(const WindowProperties &window_properties);

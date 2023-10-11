@@ -9,6 +9,11 @@ set(SOURCES #
     Breakout/src/Core/application.cpp
     Breakout/src/Core/window.cpp
     Breakout/src/Core/log.cpp
+    Breakout/src/Events/event.cpp
+    Breakout/src/Events/event_dispatcher.h
+    Breakout/src/Events/window_events.cpp
+    Breakout/src/Events/mouse_events.cpp
+    Breakout/src/Events/key_events.cpp
     # Breakout/src/Core/resources.cpp
     # Breakout/src/Renderer/renderer.cpp
     # Breakout/src/Renderer/shader.cpp

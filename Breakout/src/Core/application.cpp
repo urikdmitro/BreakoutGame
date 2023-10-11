@@ -6,6 +6,8 @@ Application::Application() : is_running_(true) {
   Log::Init();
 
   window_ = new WindowGLFW({800, 600, std::string("Breakout")});
+  window_->SetEventCallback(
+      std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
   // temporary
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -26,4 +28,8 @@ void Application::Run() {
     glClear(GL_COLOR_BUFFER_BIT);
     window_->Update();
   }
+}
+
+void Application::OnEvent(Event &event) {
+  LOG_GLOBAL_TRACE("{0}", event.ToString());
 }

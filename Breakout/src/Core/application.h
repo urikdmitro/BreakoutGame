@@ -8,6 +8,7 @@ class Application {
 private:
   WindowI *window_;
   bool is_running_;
+  void OnEvent(Event &event);
 
 public:
   Application();
